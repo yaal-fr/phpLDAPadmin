@@ -28,7 +28,6 @@ define('APPCONFIG','plaConfig');
 
 define('LIBDIR',sprintf('%s/',realpath('../lib/')));
 ini_set('display_errors',1);
-error_reporting(E_ALL);
 
 # General functions needed to proceed.
 ob_start();

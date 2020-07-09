@@ -152,9 +152,6 @@ require_once realpath(LIBDIR.'config_default.php');
 if (ob_get_level())
 	ob_end_clean();
 
-# We are now ready for error reporting.
-error_reporting(E_ALL);
-
 # Start our session.
 app_session_start();
 
