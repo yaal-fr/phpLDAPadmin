@@ -8,7 +8,7 @@
  */
 
 /** The minimum version of PHP required to run phpLDAPadmin. */
-define('REQUIRED_PHP_VERSION','5.0.0');
+define('REQUIRED_PHP_VERSION','5.5.0');
 
 /**
  * The config class contains all our configuration settings for a session.
@@ -444,7 +444,7 @@ class Config {
 		 */
 		$this->default->modify_member['groupattr'] = array(
 			'desc'=>'Group member attributes',
-			'default'=>array('member','uniqueMember','memberUid'));
+			'default'=>array('member','uniqueMember','memberUid','uid'));
 
 		/**
 		 * Attribute that is added to the group member attribute. For groupOfNames or groupOfUniqueNames this is dn,
@@ -574,6 +574,20 @@ class Config {
 		$this->default->search['time_limit'] = array(
 			'desc'=>'Maximum time to allow unlimited size_limit searches to the ldap server',
 			'default'=>120);
+
+		/* reCAPTCHA Login */
+
+		$this->default->session['reCAPTCHA-enable'] = array(
+			'desc'=>'Status reCAPTCHA (true | false)',
+			'default'=>false);
+
+		$this->default->session['reCAPTCHA-key-site'] = array(
+			'desc'=>'Site Key',
+			'default'=>"<put-here-key-site>");
+
+		$this->default->session['reCAPTCHA-key-server'] = array(
+			'desc'=>'Server key',
+			'default'=>"<put-here-key-server>");
 	}
 
 	/**

@@ -65,7 +65,7 @@ if ($app['server']->getAuthType() == 'http') {
 
 # HTML Login Form
 } else {
-	echo '<form action="cmd.php" method="post">';
+	echo '<form action="cmd.php" method="post" autocomplete="off">';
 	echo '<div>';
 	echo '<input type="hidden" name="cmd" value="login" />';
 	printf('<input type="hidden" name="server_id" value="%s" />',$app['server']->getIndex());
@@ -80,7 +80,7 @@ if ($app['server']->getAuthType() == 'http') {
 
 	printf('<tr><td><b>%s:</b></td></tr>',
 		$app['server']->getValue('login','auth_text') ? $app['server']->getValue('login','auth_text') :
-			($app['server']->getValue('login','attr') == 'dn' ? _('Login DN') : $_SESSION[APPCONFIG]->getFriendlyName($app['server']->getValue('login','attr'))));
+			($app['server']->getValue('login','attr') == 'dn' ? ($app['server']->getValue('login', 'bind_dn_template') ? _('User Name') . ' / ' . _('Login DN') : _('Login DN')) : $_SESSION[APPCONFIG]->getFriendlyName($app['server']->getValue('login','attr'))));
 
 	printf('<tr><td><input type="text" id="login" name="login" size="40" value="%s" /></td></tr>',
 		$app['server']->getValue('login','attr',false) == 'dn' ? $app['server']->getValue('login','bind_id') : '');
@@ -89,6 +89,13 @@ if ($app['server']->getAuthType() == 'http') {
 	printf('<tr><td><b>%s:</b></td></tr>',_('Password'));
 	echo '<tr><td><input type="password" id="password" size="40" value="" name="login_pass" /></td></tr>';
 	echo '<tr><td colspan="2">&nbsp;</td></tr>';
+
+	#reCAPTCHA
+	if ($_SESSION[APPCONFIG]->getValue('session', 'reCAPTCHA-enable')) {
+		echo '<script src="https://www.google.com/recaptcha/api.js"></script>';
+		echo '<tr><td><div class="g-recaptcha" data-sitekey="'.$_SESSION[APPCONFIG]->getValue('session', 'reCAPTCHA-key-site').'"></div></td></tr>';
+		echo '<tr><td colspan="2">&nbsp;</td></tr>';
+	}
 
 	# If Anon bind allowed, then disable the form if the user choose to bind anonymously.
 	if ($app['server']->isAnonBindAllowed())
